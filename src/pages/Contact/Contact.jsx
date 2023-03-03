@@ -12,7 +12,7 @@ const Contact = () => {
         <meta name="description" content="Crazy Machine's Contact" />
       </Helmet>
 
-      <section className={`bg-cyan-cust text-white-cust ${styles.oswald}`}>
+      <section id="contact" className={`bg-cyan-cust text-white-cust ${styles.oswald}`}>
         <h1>GET IN TOUCH</h1>
         <div className="flex flex-col md:flex-row gap-6 items-center justify-around flex-wrap ">
           <div className="flex flex-col items-center justify-center md:w-1/3 text-center">

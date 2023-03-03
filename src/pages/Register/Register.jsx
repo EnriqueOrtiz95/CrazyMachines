@@ -140,11 +140,11 @@ const Register = () => {
             {({ errors, handleSubmit }) => (
               <Form
                 onSubmit={handleSubmit}
-                className={`bg-gray-form4 border-gray-form2 shadow-md border-2 border-double text-gray-BA max-w-[600px] w-[90%] mx-auto p-12 my-24 relative ${
+                className={`bg-gray-form4 border-gray-form2 text-2xl shadow-md border-2 border-double text-gray-BA max-w-[600px] w-[90%] mx-auto p-12 my-24 relative ${
                   username && !userExists && "hidden"
                 } `}
               >
-                <h2 className="heading text-red-fond">Pumper Register</h2>
+                <h2 className="heading text-red-fond">Create Account</h2>
                 <label className="flex items-center justify-center w-[100px] h-[100px] absolute top-0 right-0 mb-6 text-white cursor-pointer bg-gray-form4 p-6">
                   <BiArrowBack
                     className="mr-2 text-white text-[3rem] hover:text-gray-BA"
