@@ -8,7 +8,7 @@ const Layout = () => {
   return (
     <>
       {pathname.includes("/login") ||
-      pathname.includes("/register") ? (
+      pathname.includes("/register") || pathname.includes("/profile") ? (
         <Outlet />
       ) : (
         <>

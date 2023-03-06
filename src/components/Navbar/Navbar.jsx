@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { BiMenu, BiLogIn, BiLogOut } from "react-icons/bi";
+import { BiMenu, BiLogIn } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useState, useContext, useEffect } from "react";
@@ -9,7 +9,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated, logout } =
+    useContext(AuthContext);
 
   useEffect(() => {
     // setIsAuthenticated(true);
@@ -75,7 +76,34 @@ const Navbar = () => {
         </Link>
       </div>
       <div
-        className={`login md:flex ${
+        className={`account-md ${
+          isAccountOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {isAuthenticated && (
+          <>
+            <Link to="/profile" className="md:ml-10 no-opacity">
+              Profile
+            </Link>
+            <Link to="/profile/settings" className="md:ml-10 no-opacity">
+              Settings
+            </Link>
+            <button
+              className="md:ml-10 no-opacity"
+              onClick={() => {
+                setTimeout(() => {
+                  logout();
+                  
+                }, 1500);
+              }}
+            >
+              Logout
+            </button>
+          </>
+        )}
+      </div>
+      <div
+        className={`login ${
           isLoginOpen ? "translate-x-0" : "translate-x-[-200px]"
         }
       `}
@@ -88,15 +116,26 @@ const Navbar = () => {
                 setIsAccountOpen(!isAccountOpen);
               }}
             />
-            <div
-              className={`account-md md:flex ${
-                isAccountOpen ? "translate-x-0" : "translate-x-full"
-              }`}
+            <Link to="/profile" className="md:hidden md:ml-10 no-opacity">
+              Profile
+            </Link>
+            <Link
+              to="/profile/settings"
+              className="md:hidden md:ml-10 no-opacity"
             >
-              <Link to="/profile" className="md:ml-10 no-opacity">
-                Profile
-              </Link>
-            </div>
+              Settings
+            </Link>
+            <button
+              className="md:ml-10 no-opacity"
+              onClick={() => {
+                setTimeout(() => {
+                  logout();
+                  
+                }, 1500);
+              }}
+            >
+              Logout
+            </button>
           </>
         ) : (
           <>
