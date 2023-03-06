@@ -1,12 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
-import { BiMenu } from "react-icons/bi";
+import { BiMenu, BiLogIn, BiLogOut } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import AuthContext from "../../context/auth/AuthContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+
+  useEffect(() => {
+    // setIsAuthenticated(true);
+  }, []);
+
   const location = useLocation();
 
   return (
@@ -17,30 +25,34 @@ const Navbar = () => {
         onClick={() => {
           setIsMenuOpen(!isMenuOpen);
           setIsLoginOpen(false);
+          setIsAccountOpen(false);
         }}
       >
         {isMenuOpen ? <AiOutlineClose /> : <BiMenu />}
       </button>
       <button
-        className="md:hidden absolute left-10"
+        className={` md:hidden absolute left-10`}
         onClick={() => {
           setIsLoginOpen(!isLoginOpen);
           setIsMenuOpen(false);
+          setIsAccountOpen(false);
         }}
       >
-        <MdOutlineAccountCircle className="text-2xl mr-2" />
+        {isAuthenticated ? (
+          <MdOutlineAccountCircle className="text-2xl mr-2" />
+        ) : (
+          <BiLogIn className="text-2xl mr-2" />
+        )}
       </button>
       <div>
-        <Link to="/" className="logo no-opacity">
+        <Link to="/" className="notaf">
           Crazy <span className="text-orange-500">Machines</span>
         </Link>
       </div>
       <div
         id="links"
         className={`absolute right-0 top-14 p-4 md:p-0 md:static bg-black-cust md:bg-transparent flex flex-col md:flex md:flex-row w-[200px] md:w-auto items-end md:items-center ml-auto md:ml-0 gap-4 md:gap-0 md:translate-x-0 ${
-          isMenuOpen
-            ? "translate-x-0"
-            : "translate-x-full"
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
         } 
         `}
       >
@@ -65,11 +77,33 @@ const Navbar = () => {
       <div
         className={`login md:flex ${
           isLoginOpen ? "translate-x-0" : "translate-x-[-200px]"
-        } 
+        }
       `}
       >
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
+        {isAuthenticated ? (
+          <>
+            <MdOutlineAccountCircle
+              className="cursor-pointer text-3xl hover:text-gray-400 hide-md"
+              onClick={() => {
+                setIsAccountOpen(!isAccountOpen);
+              }}
+            />
+            <div
+              className={`account-md md:flex ${
+                isAccountOpen ? "translate-x-0" : "translate-x-full"
+              }`}
+            >
+              <Link to="/profile" className="md:ml-10 no-opacity">
+                Profile
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        )}
       </div>
     </nav>
   );

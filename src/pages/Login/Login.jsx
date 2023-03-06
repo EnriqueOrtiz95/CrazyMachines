@@ -191,7 +191,7 @@ const Login = () => {
                 </button>
 
                 <div className="flex justify-center text-[1rem] mt-20">Don't have an account yet?
-                  <Link to="/register" className="text-orange-500 hover:text-orange-600 ml-2">
+                  <Link to="/register" className="text-orange-500 hover:text-orange-600 ml-2 notaf">
                     Sign Up
                   </Link>
                 </div>

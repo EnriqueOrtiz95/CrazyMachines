@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // const navigate = useNavigate();
-  // const [setCookie, removeCookie] = useCookies(["IdToken"]);
+  const navigate = useNavigate();
+  const [setCookie, removeCookie] = useCookies(["IdToken"]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // useEffect(() => {
@@ -39,15 +39,15 @@ export const AuthProvider = ({ children }) => {
   //   }
   // };
 
-  // const logout = () => {
-  //   setIsAuthenticated(false);
-  //   removeCookie("IdToken");
-  //   navigate("/login");
-  // };
+  const logout = () => {
+    setIsAuthenticated(false);
+    removeCookie("IdToken");
+    navigate("/login");
+  };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated }}
+      value={{ isAuthenticated, setIsAuthenticated, logout }}
     >
       {children}
     </AuthContext.Provider>
