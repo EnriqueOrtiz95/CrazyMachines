@@ -7,14 +7,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Axios from "axios";
 import { validateLogin } from "../../utils/validations";
-import AuthContext from "../../context/auth/AuthContext";
+
 
 import { BiArrowBack, BiShowAlt, BiHide } from "react-icons/bi";
 import { Helmet } from "react-helmet-async";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
   const [cookies, setCookie] = useCookies(["IdToken"]);
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 

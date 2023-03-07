@@ -2,15 +2,14 @@ import { Link, useLocation } from "react-router-dom";
 import { BiMenu, BiLogIn } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import { useState, useContext, useEffect } from "react";
-import AuthContext from "../../context/auth/AuthContext";
+import { useState, useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
-  const { isAuthenticated, setIsAuthenticated, logout } =
-    useContext(AuthContext);
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     // setIsAuthenticated(true);

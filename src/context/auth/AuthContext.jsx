@@ -9,6 +9,11 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [setCookie, removeCookie] = useCookies(["IdToken"]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    role: "",
+  });
 
   // useEffect(() => {
   //   checkCookie();
@@ -47,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated, logout }}
+      value={{ isAuthenticated, setIsAuthenticated, user, setUser, logout }}
     >
       {children}
     </AuthContext.Provider>
