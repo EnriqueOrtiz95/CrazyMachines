@@ -21,8 +21,18 @@ const RequireAuth = () => {
       redirect("/profile");
       return;
     }
-    if (JSON.parse(localStorage.getItem("userRegister")) && pathname === "/register") {
+    if (
+      JSON.parse(localStorage.getItem("userRegister")) &&
+      pathname === "/register"
+    ) {
       redirect("/verification");
+      return;
+    }
+    if (
+      !JSON.parse(localStorage.getItem("userRegister")) &&
+      pathname === "/verification"
+    ) {
+      redirect("/register");
       return;
     }
   }, [pathname]);
@@ -32,8 +42,12 @@ const RequireAuth = () => {
   ) : (user?.username && pathname === "/login") ||
     (user?.username && pathname === "/register") ? (
     redirect("/profile")
-  ) : JSON.parse(localStorage.getItem("userRegister")) && pathname === "/register" ? (
+  ) : JSON.parse(localStorage.getItem("userRegister")) &&
+    pathname === "/register" ? (
     redirect("/verification")
+  ) : !JSON.parse(localStorage.getItem("userRegister")) &&
+    pathname === "/verification" ? (
+    redirect("/register")
   ) : (
     <Outlet />
   );

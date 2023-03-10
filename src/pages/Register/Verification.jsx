@@ -1,17 +1,20 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, lazy } from "react";
 import styles from "./Register.module.css";
-// import ModalConfirmation from "./modals/modalConfirmation";
 
 import { Helmet } from "react-helmet-async";
 import { Auth } from "aws-amplify";
 import RegisterContext from "../../context/auth/RegisterContext";
 
-const Verification = () => {
+const ModalConfirmation = lazy(() =>
+  import("../../components/modals/ModalConfirmation")
+);
 
+const Verification = () => {
   const [error, setError] = useState(false);
   const [registerDone, setRegisterDone] = useState(false);
-  const {username} = useContext(RegisterContext);
+  const { userRegister, resendCode, setResendCode } =
+    useContext(RegisterContext);
 
   const addZero = (num) => {
     return num.length === 5 ? "0" + num : num;
@@ -20,14 +23,12 @@ const Verification = () => {
   useEffect(() => {
     setError(false);
     setRegisterDone(false);
-    // setResendCode(false);
+    setResendCode(false);
   }, []);
 
-
   return (
-    
     <>
-    <style jsx="true">{`
+      <style jsx="true">{`
         body {
           height: 100vh;
           width: 100vw;
@@ -51,31 +52,37 @@ const Verification = () => {
           code: "",
           isSecondButton: false,
         }}
-        onSubmit={async (values, { resetForm }) => {
+        onSubmit={(values, { resetForm }) => {
           if (values.isSecondButton) {
-            try{
-              await Auth.resendSignUp(username);
+            Auth.resendSignUp(userRegister)
+              .then((res) => {
                 console.log(res);
                 resetForm();
                 setError(false);
                 setResendCode(true);
-            }catch(error){
+                console.log("todo fine");
+              })
+              .catch((err) => {
+                console.log(err);
                 setError(true);
-            }
+              });
             return;
           }
-          try{
-            await Auth.confirmSignUp(
-              username, addZero(values?.code.toString()) || values?.code.toString());
-            console.log(res);
-            resetForm();
-            setError(false);
-            setRegisterDone(true);
-            localStorage.removeItem("username");
-          }catch(error){
-            setError(true);
-          }
-          
+          Auth.confirmSignUp(
+            userRegister,
+            addZero(values?.code.toString()) || values?.code.toString()
+          )
+            .then((res) => {
+              console.log(res);
+              resetForm();
+              setError(false);
+              setRegisterDone(true);
+              localStorage.removeItem("userRegister");
+            })
+            .catch((err) => {
+              console.log(err);
+              setError(true);
+            });
         }}
       >
         {({ handleSubmit, setFieldValue }) => (
@@ -90,19 +97,22 @@ const Verification = () => {
               name="code"
               placeholder="Enter Your code:"
               id="code"
-              className="w-full bg-white px-2 py-1"
+              className="w-full bg-white px-2 py-1 focus:text-black-cust"
             />
             {error && (
-              <p className="text-2xl mt-4 text-red-fond alerta">
+              <p className="text-xl mt-4 text-red-fond alerta">
                 El codigo es incorrecto
               </p>
             )}
-            <button className={styles["register-btn"]}>Confirmar</button>
+            <button className={styles["register-btn"]} type="submit">
+              Confirmar
+            </button>
 
             <div className="flex justify-center items-center">
               <button
                 onClick={() => setFieldValue("isSecondButton", true)}
-                className="text-3xl mt-10 p-2  text-red-fond alerta"
+                className="text-2xl mt-10 p-2  text-red-fond alerta"
+                type="submit"
               >
                 Resend Code
               </button>
@@ -110,7 +120,7 @@ const Verification = () => {
           </Form>
         )}
       </Formik>
-      {/* {resendCode && (
+      {resendCode && (
         <ModalConfirmation
           title={"Codigo Enviado!"}
           // setFormSubmit={setFormSubmit}
@@ -124,7 +134,7 @@ const Verification = () => {
           registerDone={registerDone}
           // setFormSubmit={setFormSubmit}
         />
-      )} */}
+      )}
     </>
   );
 };

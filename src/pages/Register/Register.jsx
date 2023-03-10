@@ -8,8 +8,6 @@ import { validate } from "../../utils/validations";
 import { BsUpload } from "react-icons/bs";
 import { BiArrowBack, BiShowAlt, BiHide } from "react-icons/bi";
 
-
-// import Verification from "./Verification";
 // import bcrypt from "bcryptjs";
 
 import { Storage } from "aws-amplify";
@@ -24,21 +22,18 @@ const ModalConfirmation = lazy(() =>
 
 const Register = () => {
   const navigate = useNavigate();
-  const { userRegister, setUserRegister } = useContext(RegisterContext);
+  const { setUserRegister, resendCode, setResendCode } =
+    useContext(RegisterContext);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmed, setShowPasswordConfirmed] = useState(false);
   const [image, setImage] = useState("");
   const [fileName, setFileName] = useState("");
-  // const [formSubmit, setFormSubmit] = useState(false);
   const [userExists, setUserExists] = useState(false);
   const [messageError, setMessageError] = useState("");
-  const [resendCode, setResendCode] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
     setUserExists(false);
-    setIsHydrated(true);
   }, []);
 
   const notifyRegisterError = () => {
@@ -95,7 +90,6 @@ const Register = () => {
             await Storage.put(fileName.name, fileName, {
               contentType: fileName.type,
             });
-            console.log("Todo fine");
           } catch (error) {
             console.log(error);
           }
@@ -124,42 +118,6 @@ const Register = () => {
                   notifyRegisterError();
               }
             });
-
-          // let formData = {
-          //   fullname: values?.fullname,
-          //   age: values?.age,
-          //   email: values?.email,
-          //   password: bcrypt.hashSync(values?.passwordConfirmed, 10),
-          //   photo: fileName || "",
-          // };
-
-          // setImage(null);
-          // await Axios.post(
-          //   `${process.env.VITE_API_URL}/user/add`,
-          //   formData,
-          //   {
-          //     headers: {
-          //       "Content-Type": "multipart/form-data",
-          //     },
-          //   }
-          // )
-          //   .then((res) => {
-          //     console.log(res);
-          //     setUserExists(false);
-          //     setUsername(values?.email);
-          //     // setFormSubmit(true);
-          //     resetForm();
-          //   })
-          //   .catch((err) => {
-          //     if (err) {
-          //       notifyRegisterError();
-          //       return;
-          //     }
-          //     if (err.response.status === 409) {
-          //       setUserExists(true);
-          //       return;
-          //     }
-          //   });
         }}
       >
         {({ errors, handleSubmit }) => (
@@ -211,49 +169,6 @@ const Register = () => {
                 )}
               </label>
             </div>
-            {/* <div>
-                  <label
-                    htmlFor="fullname"
-                    className="block mb-6 mt-10 text-purple"
-                  >
-                    Fullname
-                  </label>
-                  <Field
-                    type="text"
-                    name="fullname"
-                    placeholder="Enter Your Fullname:"
-                    id="fullname"
-                    className="w-full bg-white px-2 py-1"
-                  />
-                  <ErrorMessage
-                    name="fullname"
-                    component={() => (
-                      <p className="text-[1rem] mt-4 text-red-fond">
-                        {errors.fullname}
-                      </p>
-                    )}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="age" className="block mb-6 mt-10 text-purple">
-                    Age
-                  </label>
-                  <Field
-                    type="number"
-                    name="age"
-                    placeholder="Enter Your Age:"
-                    id="age"
-                    className="w-full bg-white px-2 py-1"
-                  />
-                  <ErrorMessage
-                    name="age"
-                    component={() => (
-                      <p className="text-[1rem] mt-4 text-red-fond">
-                        {errors.age}
-                      </p>
-                    )}
-                  />
-                </div> */}
             <div>
               <label htmlFor="email" className="block mb-6 mt-10 text-purple">
                 Email
@@ -359,14 +274,12 @@ const Register = () => {
               </p>
             )}
             {userExists && (
-              <Suspense fallback={<div></div>}>
-                <ModalConfirmation
-                  title="User already exists"
-                  setUserExists={setUserExists}
-                  resendCode={resendCode}
-                  setResendCode={setResendCode}
-                />
-              </Suspense>
+              <ModalConfirmation
+                title="User already exists"
+                setUserExists={setUserExists}
+                resendCode={resendCode}
+                setResendCode={setResendCode}
+              />
             )}
           </Form>
         )}
