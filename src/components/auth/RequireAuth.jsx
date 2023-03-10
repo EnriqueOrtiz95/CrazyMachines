@@ -1,6 +1,6 @@
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 const RequireAuth = () => {
   const { user } = useAuth();
@@ -13,19 +13,27 @@ const RequireAuth = () => {
   };
 
   useEffect(() => {
-    if(!user?.username && pathname.includes("/profile")) {
+    if (!user?.username && pathname.includes("/profile")) {
       redirect("/login");
+      return;
     }
-    if(user?.username && (pathname === "/login" || pathname === "/register")) {
+    if (user?.username && (pathname === "/login" || pathname === "/register")) {
       redirect("/profile");
+      return;
+    }
+    if (JSON.parse(localStorage.getItem("userRegister")) && pathname === "/register") {
+      redirect("/verification");
+      return;
     }
   }, [pathname]);
 
   return !user?.username && pathname.includes("/profile") ? (
     redirect("/login")
-    
-  ) : (user?.username && pathname === "/login") || pathname === "/register" ? (
+  ) : (user?.username && pathname === "/login") ||
+    (user?.username && pathname === "/register") ? (
     redirect("/profile")
+  ) : JSON.parse(localStorage.getItem("userRegister")) && pathname === "/register" ? (
+    redirect("/verification")
   ) : (
     <Outlet />
   );

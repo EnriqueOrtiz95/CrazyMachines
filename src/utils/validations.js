@@ -1,17 +1,6 @@
 import * as yup from "yup";
 
 export let validate = yup.object().shape({
-  fullname: yup
-    .string()
-    .matches(/^[a-zA-Z0-9 ]{8,70}$/, "Fullname must have at least 8 characters")
-    .required(),
-  age: yup
-    .number()
-    .required()
-    .positive()
-    .integer()
-    .min(15, "User must have at least 15 years old")
-    .max(80, "User must have at most 80 years old"),
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup
     .string()

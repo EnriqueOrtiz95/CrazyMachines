@@ -1,0 +1,14 @@
+{
+  "resourceName": "logindiscountss3",
+  "policyUUID": "bc78ce64",
+  "bucketName": "logindiscountsbucket",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

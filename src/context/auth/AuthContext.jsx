@@ -44,15 +44,20 @@ export const AuthProvider = ({ children }) => {
   //   }
   // };
 
-  const logout = () => {
-    setIsAuthenticated(false);
-    removeCookie("IdToken");
-    navigate("/login");
-  };
+  // const logout = () => {
+  //   setIsAuthenticated(false);
+  //   setUser({
+  //     username: "",
+  //     email: "",
+  //     role: "",
+  //   })
+  //   removeCookie("IdToken");
+  //   navigate("/login");
+  // };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated, user, setUser, logout }}
+      value={{ isAuthenticated, setIsAuthenticated, user, setUser}}
     >
       {children}
     </AuthContext.Provider>

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aws-amplify": "^5.0.18",
     "axios": "^1.3.4",
     "bcryptjs": "^2.4.3",
     "formik": "^2.2.9",

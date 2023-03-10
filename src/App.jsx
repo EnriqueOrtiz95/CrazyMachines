@@ -9,6 +9,7 @@ const Contact = lazy(() => import("./pages/Contact/Contact"));
 
 const Login = lazy(() => import("./pages/Login/Login"));
 const Register = lazy(() => import("./pages/Register/Register"));
+const Verification = lazy(() => import("./pages/Register/Verification"));
 
 const Profile = lazy(() => import("./pages/Profile/Profile"));
 const Settings = lazy(() => import("./pages/Profile/Settings/Settings"));
@@ -18,29 +19,33 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const RequireAuth = lazy(() => import("./components/auth/RequireAuth"));
 
 import { AuthProvider } from "./context/auth/AuthContext";
+import { RegisterProvider } from "./context/auth/RegisterContext";
 
 const App = () => {
   return (
     <Suspense fallback={<div></div>}>
       <Router>
         <AuthProvider>
-          <Routes>
-            <Route element={<RequireAuth />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={<Profile />}>
-                <Route path="/profile/settings" element={<Settings />} />
+          <RegisterProvider>
+            <Routes>
+              <Route element={<RequireAuth />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/verification" element={<Verification />} />
+                <Route path="/profile" element={<Profile />}>
+                  <Route path="settings" element={<Settings />} />
+                </Route>
               </Route>
-            </Route>
-            <Route path="/" element={<Layout />}>
-              <Route index path="/" element={<MainPage />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/contact" element={<Contact />} />
+              <Route path="/" element={<Layout />}>
+                <Route index path="/" element={<MainPage />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/contact" element={<Contact />} />
 
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Routes>
+          </RegisterProvider>
         </AuthProvider>
       </Router>
     </Suspense>

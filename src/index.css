@@ -85,7 +85,7 @@ nav{
     to right bottom,
     rgba(0, 0, 0, 0.6),
     rgba(0, 0, 0, 0.9)
-  ), url(../public//img/hero.jpg);
+  ), url(/img/hero.jpg);
   width: 100%;
   background-size: cover;
   background-position: center;

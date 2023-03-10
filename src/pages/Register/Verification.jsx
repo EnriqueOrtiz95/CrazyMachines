@@ -1,14 +1,17 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import styles from "./Register.module.css";
 // import ModalConfirmation from "./modals/modalConfirmation";
 
 import { Helmet } from "react-helmet-async";
+import { Auth } from "aws-amplify";
+import RegisterContext from "../../context/auth/RegisterContext";
 
-const Verification = ({username, resendCode, setResendCode}) => {
+const Verification = () => {
 
   const [error, setError] = useState(false);
   const [registerDone, setRegisterDone] = useState(false);
+  const {username} = useContext(RegisterContext);
 
   const addZero = (num) => {
     return num.length === 5 ? "0" + num : num;
@@ -17,15 +20,31 @@ const Verification = ({username, resendCode, setResendCode}) => {
   useEffect(() => {
     setError(false);
     setRegisterDone(false);
-    setResendCode(false);
+    // setResendCode(false);
   }, []);
 
 
   return (
     
     <>
+    <style jsx="true">{`
+        body {
+          height: 100vh;
+          width: 100vw;
+          background-image: linear-gradient(
+              to right,
+              rgb(30 20 10 / 0.8),
+              rgb(10 20 30 / 0.95)
+            ),
+            url(/img/register.webp);
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+        }
+      `}</style>
       <Helmet>
-        <title>Verification</title>
+        <title>Crazy Machines | Verification</title>
+        <meta name="description" content="Verification New User" />
       </Helmet>
       <Formik
         initialValues={{
@@ -34,63 +53,29 @@ const Verification = ({username, resendCode, setResendCode}) => {
         }}
         onSubmit={async (values, { resetForm }) => {
           if (values.isSecondButton) {
-            let resendCodeData = {
-              Username: username,
-            };
-            console.log(resendCodeData);
-            await Axios.post(
-              `${process.env.VITE_API_URL}/resend_confirmation_code`,
-              resendCodeData,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            )
-              .then((res) => {
+            try{
+              await Auth.resendSignUp(username);
                 console.log(res);
                 resetForm();
                 setError(false);
                 setResendCode(true);
-              })
-              .catch((err) => {
-                if (!err.response) {
-                  setError(true);
-                }
-              });
+            }catch(error){
+                setError(true);
+            }
             return;
           }
-          let confirmationCodeData = {
-            Username: username,
-            ConfirmationCode:
-              addZero(values?.code.toString()) || values?.code.toString(),
-          };
-          console.log(confirmationCodeData);
-          await Axios.post(
-            `${process.env.VITE_API_URL}/confirmation_account`,
-            confirmationCodeData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-            .then((res) => {
-              console.log(res);
-              resetForm();
-              setError(false);
-              setRegisterDone(true);
-              // removeCookie(username);
-              localStorage.removeItem("username");
-            })
-            .catch((err) => {
-              if (err.response.status === 502) {
-                setError(true);
-                if (document.querySelector(".alerta")) {
-                  setTimeout(() => {}, 2000);
-                }
-              }
-            });
+          try{
+            await Auth.confirmSignUp(
+              username, addZero(values?.code.toString()) || values?.code.toString());
+            console.log(res);
+            resetForm();
+            setError(false);
+            setRegisterDone(true);
+            localStorage.removeItem("username");
+          }catch(error){
+            setError(true);
+          }
+          
         }}
       >
         {({ handleSubmit, setFieldValue }) => (
@@ -112,7 +97,7 @@ const Verification = ({username, resendCode, setResendCode}) => {
                 El codigo es incorrecto
               </p>
             )}
-            <button className="register-btn">Confirmar</button>
+            <button className={styles["register-btn"]}>Confirmar</button>
 
             <div className="flex justify-center items-center">
               <button
