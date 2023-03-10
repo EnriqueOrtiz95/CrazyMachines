@@ -7,14 +7,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Axios from "axios";
 import { validateLogin } from "../../utils/validations";
-import AuthContext from "../../context/auth/AuthContext";
+
 
 import { BiArrowBack, BiShowAlt, BiHide } from "react-icons/bi";
 import { Helmet } from "react-helmet-async";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
   const [cookies, setCookie] = useCookies(["IdToken"]);
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -191,7 +192,7 @@ const Login = () => {
                 </button>
 
                 <div className="flex justify-center text-[1rem] mt-20">Don't have an account yet?
-                  <Link to="/register" className="text-orange-500 hover:text-orange-600 ml-2">
+                  <Link to="/register" className="text-orange-500 hover:text-orange-600 ml-2 notaf">
                     Sign Up
                   </Link>
                 </div>

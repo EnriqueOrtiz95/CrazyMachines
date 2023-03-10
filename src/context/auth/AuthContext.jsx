@@ -6,9 +6,14 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // const navigate = useNavigate();
-  // const [setCookie, removeCookie] = useCookies(["IdToken"]);
+  const navigate = useNavigate();
+  const [setCookie, removeCookie] = useCookies(["IdToken"]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    role: "",
+  });
 
   // useEffect(() => {
   //   checkCookie();
@@ -41,13 +46,18 @@ export const AuthProvider = ({ children }) => {
 
   // const logout = () => {
   //   setIsAuthenticated(false);
+  //   setUser({
+  //     username: "",
+  //     email: "",
+  //     role: "",
+  //   })
   //   removeCookie("IdToken");
   //   navigate("/login");
   // };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated }}
+      value={{ isAuthenticated, setIsAuthenticated, user, setUser}}
     >
       {children}
     </AuthContext.Provider>

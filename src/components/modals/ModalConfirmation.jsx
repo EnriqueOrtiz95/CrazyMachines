@@ -19,7 +19,7 @@ const ModalConfirmation = ({setResendCode, title, registerDone, setUserExists })
             </h2>
 
               <a
-                className="absolute top-5 right-5 text-[2rem] p-4 cursor-pointer"
+                className="absolute top-5 right-5 text-[2rem] p-4 cursor-pointer notaf"
                 onClick={() => {
                   setIsOpen(false);
                   if(title == "User already exists"){
@@ -31,7 +31,6 @@ const ModalConfirmation = ({setResendCode, title, registerDone, setUserExists })
                     return;
                   }
                   if(registerDone){
-                    // setFormSubmit(false);
                     navigate("/");
                   }
                 }}

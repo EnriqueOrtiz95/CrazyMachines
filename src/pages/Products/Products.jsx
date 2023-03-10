@@ -11,7 +11,7 @@ const Products = () => {
         <meta name="description" content="Crazy Machine's Products" />
       </Helmet>
 
-      <section className="">
+      <section id="products" className="">
         <h1 className="pb-[15rem]">Products</h1>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 w-[90%] mx-auto md:w-auto">

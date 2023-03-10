@@ -1,12 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
-import { BiMenu } from "react-icons/bi";
+import { BiMenu, BiLogIn } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
+
+  useEffect(() => {
+    // setIsAuthenticated(true);
+  }, []);
+
   const location = useLocation();
 
   return (
@@ -17,30 +25,34 @@ const Navbar = () => {
         onClick={() => {
           setIsMenuOpen(!isMenuOpen);
           setIsLoginOpen(false);
+          setIsAccountOpen(false);
         }}
       >
         {isMenuOpen ? <AiOutlineClose /> : <BiMenu />}
       </button>
       <button
-        className="md:hidden absolute left-10"
+        className={` md:hidden absolute left-10`}
         onClick={() => {
           setIsLoginOpen(!isLoginOpen);
           setIsMenuOpen(false);
+          setIsAccountOpen(false);
         }}
       >
-        <MdOutlineAccountCircle className="text-2xl mr-2" />
+        {isAuthenticated ? (
+          <MdOutlineAccountCircle className="text-2xl mr-2" />
+        ) : (
+          <BiLogIn className="text-2xl mr-2" />
+        )}
       </button>
       <div>
-        <Link to="/" className="logo no-opacity">
+        <Link to="/" className="notaf">
           Crazy <span className="text-orange-500">Machines</span>
         </Link>
       </div>
       <div
         id="links"
         className={`absolute right-0 top-14 p-4 md:p-0 md:static bg-black-cust md:bg-transparent flex flex-col md:flex md:flex-row w-[200px] md:w-auto items-end md:items-center ml-auto md:ml-0 gap-4 md:gap-0 md:translate-x-0 ${
-          isMenuOpen
-            ? "translate-x-0"
-            : "translate-x-full"
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
         } 
         `}
       >
@@ -63,13 +75,73 @@ const Navbar = () => {
         </Link>
       </div>
       <div
-        className={`login md:flex ${
+        className={`account-md ${
+          isAccountOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {isAuthenticated && (
+          <>
+            <Link to="/profile" className="md:ml-10 no-opacity">
+              Profile
+            </Link>
+            <Link to="/profile/settings" className="md:ml-10 no-opacity">
+              Settings
+            </Link>
+            <button
+              className="md:ml-10 no-opacity"
+              onClick={() => {
+                setTimeout(() => {
+                  logout();
+                  
+                }, 1500);
+              }}
+            >
+              Logout
+            </button>
+          </>
+        )}
+      </div>
+      <div
+        className={`login ${
           isLoginOpen ? "translate-x-0" : "translate-x-[-200px]"
-        } 
+        }
       `}
       >
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
+        {isAuthenticated ? (
+          <>
+            <MdOutlineAccountCircle
+              className="cursor-pointer text-3xl hover:text-gray-400 hide-md"
+              onClick={() => {
+                setIsAccountOpen(!isAccountOpen);
+              }}
+            />
+            <Link to="/profile" className="md:hidden md:ml-10 no-opacity">
+              Profile
+            </Link>
+            <Link
+              to="/profile/settings"
+              className="md:hidden md:ml-10 no-opacity"
+            >
+              Settings
+            </Link>
+            <button
+              className="md:ml-10 no-opacity"
+              onClick={() => {
+                setTimeout(() => {
+                  logout();
+                  
+                }, 1500);
+              }}
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        )}
       </div>
     </nav>
   );

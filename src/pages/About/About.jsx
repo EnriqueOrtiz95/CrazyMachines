@@ -33,7 +33,7 @@ const About = () => {
           </div>
           <div className="w-1/2">
             <img
-              src="../../../public/img/about_mc.jpg"
+              src="img/about_mc.jpg"
               alt="Pump It Up"
               className="h-full"
             />
