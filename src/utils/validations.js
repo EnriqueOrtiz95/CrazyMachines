@@ -32,3 +32,25 @@ export let validateLogin = yup.object().shape({
     .string()
     .required("Enter your password")
 });
+
+export let validateForgotPassword = yup.object().shape({
+  username: yup
+    .string()
+    .required("Enter your username")
+})
+
+export let validateNewPassword = yup.object().shape({
+  code: yup
+    .number()
+    .required("Enter the code")
+    .positive()
+    .integer(),
+  password: yup
+    .string()
+    .matches(/^(?=.{8,16}$)/, "Must have 8-16 characters")
+    .matches(/^(?=.*[a-z])/, "Must have lowercase letters")
+    .matches(/^(?=.*[A-Z])/, "Must have uppercase letters")
+    .matches(/^(?=.*\d)/, "Must have numbers")
+    .matches(/^(?=.*[@$!%*#?&.])/, "Must have special characters (@$!%*#?&.)")
+    .required("Enter a password")
+})

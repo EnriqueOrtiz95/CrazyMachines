@@ -3,6 +3,8 @@ import { createContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
+import { Auth } from "aws-amplify";
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -14,6 +16,21 @@ export const AuthProvider = ({ children }) => {
     email: "",
     role: "",
   });
+
+  const logout = async () => {
+    try {
+      await Auth.signOut();
+      setIsAuthenticated(false);
+      setUser({
+        username: "",
+        email: "",
+        role: "",
+      });
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // useEffect(() => {
   //   checkCookie();
@@ -57,7 +74,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated, user, setUser}}
+      value={{ isAuthenticated, setIsAuthenticated, user, setUser, logout}}
     >
       {children}
     </AuthContext.Provider>

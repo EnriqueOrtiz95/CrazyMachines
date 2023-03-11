@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 const RequireAuth = () => {
   const { user } = useAuth();
-  console.log(user);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 

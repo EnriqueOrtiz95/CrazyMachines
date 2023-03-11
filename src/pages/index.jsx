@@ -11,7 +11,7 @@ const MainPage = () => {
         <title>Crazy Machines | Home</title>
         <meta
           name="description"
-          content="Crazy Machines is a company that sells crazy machines"
+          content="Crazy Machines is a company that sells Pump It Up Machines"
         />
       </Helmet>
       <div className="hero"></div>
