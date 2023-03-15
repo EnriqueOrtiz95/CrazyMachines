@@ -20,15 +20,12 @@ const About = () => {
             <p>
               Crazy Machines is a company that is dedicated to promoving and
               providing all the models from Pump It Up Machines of Andamiro's
-              Franchise to the best price in Mexico, assuring our customers that
-              they will have the best experience with our machines in the dance
+              Franchise to the best price in most of the places around the World, assuring our customers that they will have the best experience with our machines in the dance
               play.
             </p>
             <br />
             <p>
-              Currently, we are only selling the Machines in Mexico City,
-              Guadalajara and Monterrey, but we are working to expand our
-              services to the rest of the country as soon as we can.
+              Currently, our services takes places in USA, Mexico, China, Chile and South Korea, but we are working to expand our services to the rest of the country as soon as we can.
             </p>
           </div>
           <div className="w-1/2">

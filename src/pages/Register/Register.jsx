@@ -1,5 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useState, useContext, useEffect, Suspense, lazy } from "react";
+import { useState, useContext, useEffect, lazy } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./Register.module.css";
@@ -8,7 +8,7 @@ import { validate } from "../../utils/validations";
 import { BsUpload } from "react-icons/bs";
 import { BiArrowBack, BiShowAlt, BiHide } from "react-icons/bi";
 
-// import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 import { Storage } from "aws-amplify";
 
@@ -77,12 +77,9 @@ const Register = () => {
       </Helmet>
       <Formik
         initialValues={{
-          // username: "",
-          // age: "",
           email: "",
           password: "",
-          passwordConfirmed: "",
-          // photo: "",
+          passwordConfirmed: ""
         }}
         validationSchema={validate}
         onSubmit={async (values, { resetForm }) => {

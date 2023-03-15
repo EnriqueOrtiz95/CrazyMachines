@@ -15,7 +15,9 @@ export const RegisterProvider = ({ children }) => {
   }, [userRegister]);
 
   return (
-    <RegisterContext.Provider value={{ userRegister, setUserRegister, resendCode, setResendCode}}>
+    <RegisterContext.Provider
+      value={{ userRegister, setUserRegister, resendCode, setResendCode }}
+    >
       {children}
     </RegisterContext.Provider>
   );

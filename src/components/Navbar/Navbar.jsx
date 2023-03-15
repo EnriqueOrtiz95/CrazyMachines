@@ -6,16 +6,20 @@ import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
+  const location = useLocation();
+  const { isAuthenticated, setIsAuthenticated, logout } = useAuth();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
-  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
-    // setIsAuthenticated(true);
+    //TODO THIS MUST TO BE MODIFIED TO HTTP-ONLY LATER FOR SECURITY REASONS
+    if (localStorage.getItem("amplify-signin-with-hostedUI")) {
+      setIsAuthenticated(true);
+    }
   }, []);
 
-  const location = useLocation();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-10 flex flex-col md:flex-row items-center justify-between p-4 md:p-8 bg-black-cust text-white-cust text-xl opacity-90">
@@ -87,12 +91,13 @@ const Navbar = () => {
             <Link to="/profile/settings" className="md:ml-10 no-opacity">
               Settings
             </Link>
+            
             <button
-              className="md:ml-10 no-opacity"
+              className="ml-10 no-opacity md:hidden"
               onClick={() => {
                 setTimeout(() => {
                   logout();
-                  
+                  setIsAccountOpen(false);
                 }, 1500);
               }}
             >
@@ -129,7 +134,6 @@ const Navbar = () => {
               onClick={() => {
                 setTimeout(() => {
                   logout();
-                  
                 }, 1500);
               }}
             >
