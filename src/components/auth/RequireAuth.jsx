@@ -12,11 +12,11 @@ const RequireAuth = () => {
   };
 
   useEffect(() => {
-    if (!user?.username && pathname.includes("/profile")) {
+    if (!user && pathname.includes("/profile")) {
       redirect("/login");
       return;
     }
-    if (user?.username && (pathname === "/login" || pathname === "/register")) {
+    if (user && (pathname === "/login" || pathname === "/register")) {
       redirect("/profile");
       return;
     }
@@ -36,10 +36,10 @@ const RequireAuth = () => {
     }
   }, [pathname]);
 
-  return !user?.username && pathname.includes("/profile") ? (
+  return !user && pathname.includes("/profile") ? (
     redirect("/login")
-  ) : (user?.username && pathname === "/login") ||
-    (user?.username && pathname === "/register") ? (
+  ) : (user && pathname === "/login") ||
+    (user && pathname === "/register") ? (
     redirect("/profile")
   ) : JSON.parse(localStorage.getItem("userRegister")) &&
     pathname === "/register" ? (

@@ -14,17 +14,16 @@ import useAuth from "../../hooks/useAuth";
 import { Auth } from "aws-amplify";
 
 const Login = () => {
-  // const [cookies, setCookie] = useCookies(["IdToken"]);
   const { setIsAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const notifyEmail = () => {
-    toast.error("Correo o contraseña incorrecta");
+    toast.error("Wrong email or password");
   };
 
   const notifyServerError = () => {
-    toast.error("No puedes ingresar, intentalo más tarde");
+    toast.error("Error connecting to server, please try again later");
   };
 
   return (
@@ -70,26 +69,16 @@ const Login = () => {
         }}
         validationSchema={validateLogin}
         onSubmit={async (values, { resetForm }) => {
-          await Axios.post(`${process.env.VITE_API_URL}/sign_in`, loginData, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((res) => {
-              const { IdToken, ExpiresIn } = res.data;
-              if (IdToken) {
-                setCookie("IdToken", IdToken, {
-                  path: "/",
-                  maxAge: ExpiresIn,
-                  secure: true,
-                  sameSite: "strict",
-                });
+
+          Auth.signIn(values.username, values.password)
+            .then((user) => {
                 setIsAuthenticated(true);
                 resetForm();
-                navigate("/dashboard");
-              }
+                navigate("/");
             })
             .catch((err) => {
+              const { code } = err;
+              console.log(code);
               setIsAuthenticated(false);
               if (!err.response) {
                 notifyServerError();

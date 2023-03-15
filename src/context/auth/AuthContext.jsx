@@ -1,6 +1,5 @@
-import Axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 import { Auth } from "aws-amplify";
@@ -9,24 +8,20 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [setCookie, removeCookie] = useCookies(["IdToken"]);
+  // const [setCookie, removeCookie] = useCookies(["IdToken"]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState({
-    username: "",
-    email: "",
-    role: "",
-  });
+  const [user, setUser] = useState(
+    typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_DATA))?.UserAttributes[2].Value ?? ""
+    : ""
+  );
 
   const logout = async () => {
     try {
       await Auth.signOut();
       setIsAuthenticated(false);
-      setUser({
-        username: "",
-        email: "",
-        role: "",
-      });
-      navigate("/");
+      setUser("");
+      navigate("/login");
     } catch (err) {
       console.log(err);
     }

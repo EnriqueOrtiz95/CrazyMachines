@@ -1,11 +1,13 @@
-import {MdOutlineAccountCircle } from "react-icons/md";
-import {BiStoreAlt} from "react-icons/bi";
+import { MdOutlineAccountCircle } from "react-icons/md";
+import { BiStoreAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import {GiPriceTag} from "react-icons/gi";
+import { GiPriceTag } from "react-icons/gi";
+import useAuth from "../../hooks/useAuth";
 
 const ProductsCard = ({ product }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const { name, description, price, img, stock } = product;
+  const { user } = useAuth();
   return (
     <>
       <div className="shadow-xl rounded-lg relative">
@@ -17,7 +19,7 @@ const ProductsCard = ({ product }) => {
           src={img}
           alt={name}
           className="
-                h-[500px] w-full object-cover
+                h-[500px] w-full object-cover hover:scale-105
             "
         />
         <div className="pt-12 bg-transparent border-t-4 border-stone-cust text-stone-cust mt-10 overflow-hidden">
@@ -29,7 +31,8 @@ const ProductsCard = ({ product }) => {
             <p className="circle bg-red-900"></p>
             <p className="circle bg-stone-hover"></p>
           </div>
-          <button className="bg-blue-strong text-white-cust p-1 my-4 mr-[-20px] hover:mr-[-10px] w-[250px] rounded-xl flex items-center justify-evenly ml-auto"
+          <button
+            className="bg-blue-strong text-white-cust p-1 my-4 mr-[-20px] hover:mr-[-10px] w-[250px] rounded-xl flex items-center justify-evenly ml-auto"
             onClick={() => {
               setTimeout(() => {
                 navigate("/login");
@@ -47,12 +50,20 @@ const ProductsCard = ({ product }) => {
               </p>
             </div>
             <div className="text-lg text-right text-neutral-200 font-bold mb-2">
-              <span className="text-sm text-red-900 mr-2 line-through block">
+              <span
+                className={`${
+                  user
+                    ? "text-sm text-red-900 line-through"
+                    : "text-lg text-black-cust"
+                } mr-2 block`}
+              >
                 USD${price}
               </span>
-              <span className="text-2xl text-black-cust mr-2 block">
-                USD${price * 0.9}
-              </span>
+              {user && (
+                <span className="text-2xl text-black-cust mr-2 block">
+                  USD${price * 0.9}
+                </span>
+              )}
             </div>
           </div>
           <div>
