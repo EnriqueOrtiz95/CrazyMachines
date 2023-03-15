@@ -91,8 +91,9 @@ const Navbar = () => {
             <Link to="/profile/settings" className="md:ml-10 no-opacity">
               Settings
             </Link>
+            
             <button
-              className="md:ml-10 no-opacity"
+              className="ml-10 no-opacity md:hidden"
               onClick={() => {
                 setTimeout(() => {
                   logout();

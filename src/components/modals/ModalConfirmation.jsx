@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MdMarkEmailRead } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-const ModalConfirmation = ({setResendCode, title, registerDone, setUserExists, setShowModal, showModal}) => {
+const ModalConfirmation = ({setResendCode, title, setRegisterDone, setUserExists, setShowModal, showModal}) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const navigate = useNavigate();
@@ -30,16 +30,17 @@ const ModalConfirmation = ({setResendCode, title, registerDone, setUserExists, s
                     setResendCode(false);
                     return;
                   }
+                  if(title == "Registro Exitoso!"){
+                    setRegisterDone(false);
+                    navigate("/");
+                    return;
+                  }
                   if(title.includes(JSON.parse(localStorage.getItem("username")))){
                     setShowModal(false);
                     if(!showModal){
                       navigate("/new-password");
                     }
                     return;
-                  }
-                  if(registerDone){
-                    navigate("/");
-
                   }
                 }}
               >

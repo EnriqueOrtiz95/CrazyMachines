@@ -131,7 +131,7 @@ const Verification = () => {
       {registerDone && (
         <ModalConfirmation
           title={"Registro Exitoso!"}
-          registerDone={registerDone}
+          setRegisterDone={setRegisterDone}
           // setFormSubmit={setFormSubmit}
         />
       )}
