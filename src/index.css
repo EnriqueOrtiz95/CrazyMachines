@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  outline: none;
+  transition: all .3s linear;
+} 
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+
+
+body{
+    background-color: #d9d9d9;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #233540;
+}
+
+section{
+    margin: 0 auto;
+    padding: 5rem 5%;
+}
+
+a {
+    position: relative;
+    text-decoration: none;
+    color: #d9d9d9;
+  }
+  
+  a:not(.logo, .notaf)::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #d9d9d9;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  a:hover::after,
+  a:focus::after {
+    transform: scaleX(1);
+  }
+
+h1{
+  font-size: 3rem;
+  font-weight: 700;
+  padding-block: 6rem;
+  text-align: center;
+}
+
+h2{
+  font-size: 2rem;
+  font-weight: 700;
+  padding-block: 4rem;
+}
+
+img{
+  width: 100%;
+  height: auto;
+}
+
+nav{
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 10;
+}
+
+.hero{
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.9)
+  ), url(/img/hero.jpg);
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  z-index: 100;
+}
+
+.no-opacity{
+  opacity: 1 !important;
+}
+
+.circle{
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+.login{
+  position: absolute;
+  top: 3.5rem;
+  left: 0;
+  width: 200px;
+  padding-block: 1rem;
+  padding-left: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: rgba(0 0 0 / .84);
+}
+
+@media screen and (min-width: 768px){
+  .login{
+    all: unset;
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 767px){
+  .account-md{
+    display: none;
+  }
+  .hide-md{
+    display: none;
+  } 
+}
+
+
+@media screen and (min-width: 767px){
+  .account-md{
+    position: absolute;
+    top: 5.8rem;
+    right: 0;
+    width: 200px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+    background-color: rgba(0 0 0 / .84);
+  }
+}
